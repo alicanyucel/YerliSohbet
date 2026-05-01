@@ -1,46 +1,82 @@
 <main class="chat-shell">
-  <section class="chat-card p-component">
-    <div class="header-row">
-      <h1>SignalR Sohbet</h1>
-      <span class="status-tag" [class.online]="connected()" [class.offline]="!connected()">
-        <i class="pi" [class.pi-check-circle]="connected()" [class.pi-times-circle]="!connected()"></i>
-        {{ connected() ? 'Bagli' : 'Bagli degil' }}
-      </span>
+
+  <!-- LOGIN EKRANI -->
+  <div class="login-overlay" *ngIf="!loggedIn()">
+    <div class="login-card">
+      <div class="login-logo">
+        <i class="pi pi-comments"></i>
+      </div>
+      <h2>Sohbete Katıl</h2>
+      <p class="login-sub">Kullanıcı adını gir ve başla</p>
+      <div class="login-form">
+        <input
+          class="p-inputtext p-component login-input"
+          type="text"
+          placeholder="Kullanıcı adın"
+          [ngModel]="usernameInput()"
+          (ngModelChange)="usernameInput.set($event)"
+          (keyup.enter)="login()"
+          autofocus
+        />
+        <button
+          class="p-button p-component login-btn"
+          type="button"
+          [disabled]="!usernameInput().trim()"
+          (click)="login()"
+        >
+          <i class="pi pi-sign-in"></i>
+          <span>Giriş Yap</span>
+        </button>
+      </div>
     </div>
+  </div>
+
+  <!-- SOHBET EKRANI -->
+  <section class="chat-card p-component" *ngIf="loggedIn()">
+    <div class="header-row">
+      <h1>Sohbet</h1>
+      <div class="header-right">
+        <span class="status-tag" [class.online]="connected()" [class.offline]="!connected()">
+          <i class="pi" [class.pi-check-circle]="connected()" [class.pi-times-circle]="!connected()"></i>
+          {{ connected() ? 'Bağlı' : 'Bağlı değil' }}
+        </span>
+        <button class="user-chip" (click)="logout()" title="Çıkış yap">
+          <i class="pi pi-user"></i>
+          <span>{{ user() }}</span>
+          <i class="pi pi-sign-out exit-icon"></i>
+        </button>
+      </div>
+    </div>
+
+    <section class="messages">
+      <article
+        class="msg"
+        *ngFor="let item of messages()"
+        [class.own]="item.user === user()"
+      >
+        <div class="msg-head">
+          <strong>{{ item.user === user() ? 'Sen' : item.user }}</strong>
+          <small>{{ item.sentAt | date: 'HH:mm' }}</small>
+        </div>
+        <p>{{ item.message }}</p>
+      </article>
+
+      <p class="empty" *ngIf="messages().length === 0">Henüz mesaj yok. İlk mesajı sen gönder.</p>
+    </section>
 
     <section class="composer">
       <input
         class="p-inputtext p-component"
         type="text"
-        placeholder="Kullanici adin"
-        [ngModel]="user()"
-        (ngModelChange)="user.set($event)"
-      />
-
-      <input
-        class="p-inputtext p-component"
-        type="text"
-        placeholder="Mesajin"
+        placeholder="Mesajını yaz..."
         [ngModel]="message()"
         (ngModelChange)="message.set($event)"
         (keyup.enter)="send()"
       />
-
       <button class="p-button p-component" type="button" [disabled]="!canSend()" (click)="send()">
-        <span class="p-button-label">Gonder</span>
+        <i class="pi pi-send"></i>
       </button>
     </section>
-
-    <section class="messages">
-      <article class="msg" *ngFor="let item of messages()">
-        <div class="msg-head">
-          <strong>{{ item.user }}</strong>
-          <small>{{ item.sentAt | date: 'HH:mm:ss' }}</small>
-        </div>
-        <p>{{ item.message }}</p>
-      </article>
-
-      <p class="empty" *ngIf="messages().length === 0">Henuz mesaj yok. Ilk mesaji sen gonder.</p>
-    </section>
   </section>
+
 </main>
