@@ -1,0 +1,46 @@
+<main class="chat-shell">
+  <section class="chat-card p-component">
+    <div class="header-row">
+      <h1>SignalR Sohbet</h1>
+      <span class="status-tag" [class.online]="connected()" [class.offline]="!connected()">
+        <i class="pi" [class.pi-check-circle]="connected()" [class.pi-times-circle]="!connected()"></i>
+        {{ connected() ? 'Bagli' : 'Bagli degil' }}
+      </span>
+    </div>
+
+    <section class="composer">
+      <input
+        class="p-inputtext p-component"
+        type="text"
+        placeholder="Kullanici adin"
+        [ngModel]="user()"
+        (ngModelChange)="user.set($event)"
+      />
+
+      <input
+        class="p-inputtext p-component"
+        type="text"
+        placeholder="Mesajin"
+        [ngModel]="message()"
+        (ngModelChange)="message.set($event)"
+        (keyup.enter)="send()"
+      />
+
+      <button class="p-button p-component" type="button" [disabled]="!canSend()" (click)="send()">
+        <span class="p-button-label">Gonder</span>
+      </button>
+    </section>
+
+    <section class="messages">
+      <article class="msg" *ngFor="let item of messages()">
+        <div class="msg-head">
+          <strong>{{ item.user }}</strong>
+          <small>{{ item.sentAt | date: 'HH:mm:ss' }}</small>
+        </div>
+        <p>{{ item.message }}</p>
+      </article>
+
+      <p class="empty" *ngIf="messages().length === 0">Henuz mesaj yok. Ilk mesaji sen gonder.</p>
+    </section>
+  </section>
+</main>

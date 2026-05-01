@@ -1,0 +1,125 @@
+:host {
+  display: block;
+}
+
+.chat-shell {
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255, 190, 11, 0.25), transparent 40%),
+    radial-gradient(circle at 90% 20%, rgba(251, 86, 7, 0.2), transparent 35%),
+    linear-gradient(145deg, #f7f3ea 0%, #f3e8d6 100%);
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+}
+
+.chat-card {
+  max-width: 860px;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 18px 50px rgba(74, 43, 0, 0.18);
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.2rem;
+}
+
+.header-row h1 {
+  margin: 0;
+  font-size: 1.35rem;
+  letter-spacing: 0.02em;
+}
+
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.status-tag.online {
+  color: #0f5132;
+  background: #d1f5de;
+}
+
+.status-tag.offline {
+  color: #842029;
+  background: #f8d7da;
+}
+
+.composer {
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
+  gap: 0.75rem;
+  padding: 1rem 1.2rem;
+}
+
+.message-input {
+  width: 100%;
+}
+
+.composer .p-inputtext {
+  width: 100%;
+}
+
+.composer .p-button {
+  white-space: nowrap;
+}
+
+.messages {
+  padding: 0.5rem 1.2rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.msg {
+  border: 1px solid #e6d4b9;
+  border-radius: 14px;
+  padding: 0.65rem 0.85rem;
+  background: #fffaf2;
+  animation: fadeIn 0.22s ease-in;
+}
+
+.msg-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+.msg p {
+  margin: 0;
+  color: #3d2a17;
+}
+
+.empty {
+  text-align: center;
+  color: #785f46;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .composer {
+    grid-template-columns: 1fr;
+  }
+}
